@@ -1,4 +1,4 @@
-class Columns(object):
+class Field(object):
     LOAN_ID = 0
     NOTE_ID = 1
     ORDER_ID = 2
