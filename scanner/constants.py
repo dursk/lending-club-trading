@@ -11,7 +11,7 @@ class Field(object):
     DAYS_SINCE_LAST_PAYMENT = 9
     CREDIT_SCORE_TREND = 10
     FICO_END_RANGE = 11
-    DATETIME_LISTED = 12
+    DATE_LISTED = 12
     NEVER_LATE = 13
     LOAN_CLASS = 14
     LOAN_MATURITY = 15
@@ -19,6 +19,33 @@ class Field(object):
     INTEREST_RATE = 17
     REMAINING_PAYMENTS = 18
     PRINCIPAL_AND_INTEREST = 19
+
+    bool_fields = {
+        NEVER_LATE,
+    }
+
+    datetime_fields = {
+        DATE_LISTED,
+    }
+
+    decimal_fields = {
+        OUTSTANDING_PRINCIPAL,
+        ACCRUED_INTEREST,
+        ASK_PRICE,
+        MARKUP_OR_DISCOUNT,
+        YIELD_TO_MATURITY,
+        ORIGINAL_LOAN_AMOUNT,
+        INTEREST_RATE,
+        PRINCIPAL_AND_INTEREST,
+    }
+
+    integer_fields = {
+        LOAN_ID,
+        NOTE_ID,
+        ORDER_ID,
+        DAYS_SINCE_LAST_PAYMENT,
+        REMAINING_PAYMENTS,
+    }
 
 
 class CreditScoreTrend(object):
@@ -42,3 +69,8 @@ class LoanClass(object):
     D = {'D1', 'D2', 'D3', 'D4', 'D5'}
     E = {'E1', 'E2', 'E3', 'E4', 'E5'}
     F = {'F1', 'F2', 'F3', 'F4', 'F5'}
+
+
+class LoanMaturity(object):
+    THIRTY_SIX_MONTHS = '36'
+    SIXTY_MONTHS = '60'

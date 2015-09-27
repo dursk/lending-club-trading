@@ -1,34 +1,38 @@
 import csv
 
 from .constants import CreditScoreTrend, Field, Status
-from .lookups import equal
+from .converters import convert_to_python
+from .lookups import equal, greater_than
 
 
 example_config = {
-	Field.CREDIT_SCORE_TREND: {
-		'value': CreditScoreTrend.UP,
-		'condition': equal
-	}
+    Field.CREDIT_SCORE_TREND: {
+        'value': CreditScoreTrend.UP,
+        'condition': equal
+    },
+    Field.OUTSTANDING_PRINCIPAL: {
+        'value': Decimal('0.2'),
+        'condition': greater_than
+    }
 }
 
 
+def evaluate_note(note, search_config):
+    return all(
+        config['condition'](note[field], config['value'])
+        for field, config in search_config.items()
+    )
+
+
 def scan_notes(notes, search_config):
-	profitable_notes = []
-	for note in notes:
-		meets_criteria = True
-		for field, config in search_config.items():
-			value = config['value']
-			condition = config['condition']
-			if not condition(note[field], value):
-				meets_criteria = False
-				break
-		if meets_criteria:
-			profitable_notes.append(note)
-	return profitable_notes
+    return [
+        note for note in notes
+        if evaluate_note(convert_to_python(note), search_config)
+    ]
 
 
 def scan_csv(filename, search_config):
-	with open(filename, 'r') as f:
-		reader = csv.reader(f)
-		reader.next()
-		return scan_notes(reader, search_config)
+    with open(filename, 'r') as f:
+        reader = csv.reader(f)
+        reader.next()
+        return scan_notes(reader, search_config)
