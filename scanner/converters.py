@@ -6,7 +6,10 @@ from .constants import Field
 
 def convert_to_python(note):
     for field in Field.integer_fields:
-        note[field] = int(note[field])
+        try:
+            note[field] = int(note[field])
+        except ValueError:
+            note[field] = 0
     for field in Field.decimal_fields:
         try:
             note[field] = Decimal(note[field])
