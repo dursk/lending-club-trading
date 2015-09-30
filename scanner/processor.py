@@ -44,4 +44,4 @@ def scan_csv(filename, search_config, to_csv=False):
     with open('output.csv', 'w') as f:
     	writer = csv.writer(f)
     	for row in [header] + notes:
-    		writer.writerow(row)
+    	    writer.writerow(row)
