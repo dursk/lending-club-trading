@@ -1,4 +1,5 @@
 import csv
+from decimal import Decimal
 
 from .constants import CreditScoreTrend, Field, Status
 from .converters import convert_to_python
@@ -31,8 +32,14 @@ def scan_notes(notes, search_config):
     ]
 
 
-def scan_csv(filename, search_config):
+def scan_csv(filename, search_config, to_csv=False):
     with open(filename, 'r') as f:
         reader = csv.reader(f)
-        reader.next()
-        return scan_notes(reader, search_config)
+        header = reader.next()
+        notes = scan_notes(reader, search_config)
+    if not to_csv:
+    	return notes
+    with open('output.csv', 'w') as f:
+    	writer = csv.writer(f)
+    	for row in [header] + notes:
+    		writer.writerow(row)
