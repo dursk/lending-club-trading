@@ -37,8 +37,10 @@ def scan_csv(filename, search_config, to_csv=False):
         reader = csv.reader(f)
         header = reader.next()
         notes = scan_notes(reader, search_config)
+
     if not to_csv:
     	return notes
+
     with open('output.csv', 'w') as f:
     	writer = csv.writer(f)
     	for row in [header] + notes:
